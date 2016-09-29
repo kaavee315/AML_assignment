@@ -1,0 +1,654 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"corre",
+				"correct_prediction"
+			],
+			[
+				"row",
+				"row_count"
+			],
+			[
+				"ro",
+				"row_trains"
+			],
+			[
+				"max",
+				"max_count"
+			],
+			[
+				"CO",
+				"correct_prediction"
+			],
+			[
+				"inc",
+				"increment"
+			],
+			[
+				"in",
+				"increment"
+			],
+			[
+				"co",
+				"countnc_wrong"
+			],
+			[
+				"count",
+				"countc_wrong"
+			],
+			[
+				"batc",
+				"batch_xs"
+			],
+			[
+				"va",
+				"validation_images2"
+			],
+			[
+				"i",
+				"images"
+			],
+			[
+				"image",
+				"images"
+			],
+			[
+				"im",
+				"images2"
+			],
+			[
+				"max_",
+				"max_can_cut"
+			],
+			[
+				"se",
+				"second"
+			],
+			[
+				"second",
+				"second-start"
+			],
+			[
+				"ma",
+				"max_before"
+			],
+			[
+				"int",
+				"intervals"
+			],
+			[
+				"a",
+				"actual_start"
+			],
+			[
+				"ne",
+				"next_not_included"
+			],
+			[
+				"an",
+				"ans_a"
+			],
+			[
+				"equ",
+				"equal_left"
+			],
+			[
+				"equal",
+				"equal_count"
+			],
+			[
+				"ans",
+				"ansb"
+			],
+			[
+				"fin",
+				"finished"
+			],
+			[
+				"sh",
+				"shortest_path"
+			],
+			[
+				"sho",
+				"shortest_path_without"
+			],
+			[
+				"short",
+				"shortest_path"
+			],
+			[
+				"shortest",
+				"shortest_till_now"
+			],
+			[
+				"fo",
+				"found"
+			],
+			[
+				"diff",
+				"different"
+			],
+			[
+				"min",
+				"min_cost"
+			],
+			[
+				"st",
+				"stores"
+			],
+			[
+				"tick",
+				"ticket_cost"
+			],
+			[
+				"ticket",
+				"tickets_to_comp"
+			],
+			[
+				"pu",
+				"push_back"
+			],
+			[
+				"bi",
+				"bipartite_notposs"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "ass_2.py",
+			"settings":
+			{
+				"buffer_size": 2177,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "ass_1.py",
+			"settings":
+			{
+				"buffer_size": 2655,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "ass_3.py",
+			"settings":
+			{
+				"buffer_size": 3102,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "err",
+			"settings":
+			{
+				"buffer_size": 4142770,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/kaavee/.config/sublime-text-3/Packages/User/Preferences.sublime-settings",
+			"settings":
+			{
+				"buffer_size": 89,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "practice/mnist.py",
+			"settings":
+			{
+				"buffer_size": 1011,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/home/kaavee/.config/sublime-text-3/Packages/Default/Preferences.sublime-settings",
+		"/home/kaavee/Documents/codes/AML_assignment/ass_2.py",
+		"/home/kaavee/Documents/codes/AML_assignment/ass_1.py",
+		"/home/kaavee/Documents/codes/HR/inp",
+		"/home/kaavee/Documents/codes/HR/cs_7.cpp",
+		"/home/kaavee/Documents/codes/codef/cont333_D.cpp",
+		"/home/kaavee/Documents/codes/AML_assignment/practice/mnist.py",
+		"/home/kaavee/Documents/codes/AML_assignment/tmo_out",
+		"/home/kaavee/Documents/codes/codef/inp",
+		"/home/kaavee/Documents/codes/codef/try.cpp",
+		"/home/kaavee/Documents/codes/google_apac/out",
+		"/home/kaavee/Documents/codes/codef/cont372_A.cpp",
+		"/home/kaavee/Documents/codes/codef/cont371_A.cpp",
+		"/home/kaavee/Documents/codes/codef/cont373_A.cpp",
+		"/home/kaavee/Documents/codes/google_apac/C-small-practice_0.in",
+		"/home/kaavee/Documents/codes/google_apac/check2",
+		"/home/kaavee/Documents/codes/google_apac/0_A2.cpp",
+		"/home/kaavee/Documents/codes/google_apac/inp",
+		"/home/kaavee/Documents/codes/google_apac/check",
+		"/media/kaavee/OS/Users/kaave/Dropbox/notesandbooks/resume/cv_placement_internship_behind.tex",
+		"/media/kaavee/OS/Users/kaave/Dropbox/notesandbooks/resume/cv_placement_2.tex",
+		"/home/kaavee/Documents/codes/google_apac/0_A.cpp",
+		"/home/kaavee/Documents/codes/google_apac/B-small-practice.in",
+		"/home/kaavee/Documents/codes/google_apac/B-large-practice.in",
+		"/home/kaavee/Documents/codes/google_apac/out2",
+		"/home/kaavee/Documents/codes/google_apac/C-large-practice.in",
+		"/home/kaavee/Documents/codes/google_apac/inp2",
+		"/home/kaavee/Documents/codes/google_apac/0_A.cpp.cpp",
+		"/home/kaavee/Documents/codes/google_apac/1_A.cpp",
+		"/home/kaavee/Documents/codes/google_apac/1_A2.cpp",
+		"/home/kaavee/Documents/codes/google_apac/1_A2.cpp.cpp",
+		"/home/kaavee/Documents/codes/google_apac/1_A2",
+		"/home/kaavee/Documents/codes/google_apac/1_B.cpp",
+		"/home/kaavee/Documents/codes/google_apac/1_B2.cpp",
+		"/home/kaavee/Documents/codes/codef/cont372_C.cpp",
+		"/media/kaavee/OS/Users/kaave/Dropbox/kaavee/codef/cont248_1.cpp",
+		"/media/kaavee/OS/Users/kaave/Dropbox/kaavee/google_apac/1_A.cpp",
+		"/media/kaavee/OS/Users/kaave/Dropbox/kaavee/CS293/CS293 1/lab_13/130050019_13 (1).cpp",
+		"/media/kaavee/OS/Users/kaave/Dropbox/kaavee/CS293/CS293 1/lab_13/ass_1.cpp",
+		"/media/kaavee/OS/Users/kaave/Dropbox/kaavee/CS293/CS293 1/lab_13/big.in",
+		"/media/kaavee/OS/Users/kaave/Dropbox/kaavee/CS293/CS293 1/lab_12/Assignment_12.txt",
+		"/media/kaavee/OS/Users/kaave/Dropbox/kaavee/libcreate/gcd.cpp",
+		"/media/kaavee/OS/Users/kaave/Dropbox/kaavee/codef/cont296_1.cpp",
+		"/home/kaavee/.config/sublime-text-3/Packages/User/Distraction Free.sublime-settings",
+		"/home/kaavee/.config/sublime-text-3/Packages/User/C++.sublime-settings",
+		"/home/kaavee/.config/sublime-text-3/Packages/User/Preferences.sublime-settings",
+		"/home/kaavee/Documents/codes/codef/A.cpp",
+		"/home/kaavee/Documents/codes/codechef/sept16_1.cpp",
+		"/home/kaavee/Documents/codes/codechef/inp",
+		"/home/kaavee/inp",
+		"/home/kaavee/sept16_1.cpp",
+		"/media/kaavee/OS/Users/kaave/Dropbox/kaavee/codechef/sept16_1.cpp",
+		"/home/kaavee/Desktop/Dropbox/kaavee/codechef/sept16_1.cpp"
+	],
+	"find":
+	{
+		"height": 61.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+			"y_",
+			"y",
+			" \"",
+			"\"",
+			"Print",
+			"int",
+			"cout",
+			"numpy",
+			"int",
+			"interval",
+			"int",
+			"long long int",
+			"int",
+			"point",
+			"int",
+			"intervals",
+			"int",
+			"cout",
+			"long long int",
+			"int",
+			",",
+			"cout",
+			"int",
+			"cout",
+			"int",
+			"if(left==1",
+			";\n",
+			"compare_t",
+			"compare_p",
+			"auto",
+			"{",
+			"(",
+			"{",
+			"bracket",
+			"int",
+			"long long int",
+			"int",
+			"arr",
+			"int",
+			"ush_back",
+			"ppush_back",
+			"adj[curr][j]"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"long long",
+			"np",
+			"long long",
+			"segment",
+			"long long int",
+			"int",
+			"long long int",
+			"pojnt",
+			"long long int",
+			"segment",
+			"long long int",
+			"int",
+			"long long int",
+			">>",
+			"long long int",
+			"if(left==5",
+			"long long int",
+			"int",
+			"long long int",
+			"diff",
+			"long long int",
+			"to_check"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 2,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "ass_2.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2177,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 384.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "ass_1.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2655,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1911,
+								1911
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 1248.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "ass_3.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3102,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2199,
+								2199
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 1361.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "err",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4142770,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								250602,
+								250602
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 38183.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "/home/kaavee/.config/sublime-text-3/Packages/User/Preferences.sublime-settings",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 89,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								89,
+								89
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "practice/mnist.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1011,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								654,
+								654
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 40.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "",
+	"replace":
+	{
+		"height": 114.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 1000.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"~/Documents/codes/AML_assignment/aml2.sublime-workspace"
+			]
+		],
+		"width": 760.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 300.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
