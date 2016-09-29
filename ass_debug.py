@@ -64,13 +64,13 @@ x = tf.placeholder(tf.float32, [None, 2500])
 
 
 W0 = tf.Variable(tf.random_normal([2500, 104],mean=0.00, stddev=0.001))
-W0 = tf.Print(W0, [W0], message="This is W0: ", summarize = 10)
+# W0 = tf.Print(W0, [W0], message="This is W0: ", summarize = 10)
 b0 = tf.Variable(tf.random_normal([104],mean=0.00, stddev=0.001))
-b0 = tf.Print(b0, [b0], message="This is b0: ", summarize = 10)
+# b0 = tf.Print(b0, [b0], message="This is b0: ", summarize = 10)
 z0 = tf.matmul(x, W0) + b0
-z0 = tf.Print(z0, [z0], message="This is z0: ", summarize = 10)
+# z0 = tf.Print(z0, [z0], message="This is z0: ", summarize = 10)
 y=tf.nn.softmax(z0)
-y = tf.Print(y, [y], message="This is y: ", summarize = 104)
+# y = tf.Print(y, [y], message="This is y: ", summarize = 104)
 
 
 # W1 = tf.Variable(tf.fill([1000, 500],value=0.001))
@@ -98,7 +98,7 @@ y_ = tf.placeholder(tf.float32, [None, 104])
 # y_ = tf.Print(y_, [y_], message="This is y_real: ", summarize = 10)
 
 cross_entropy = -tf.reduce_sum(y_*tf.log(tf.clip_by_value(y,1e-10,1.0)))
-cross_entropy = tf.Print(cross_entropy,[cross_entropy],"This is cross entropy: ")
+# cross_entropy = tf.Print(cross_entropy,[cross_entropy],"This is cross entropy: ")
 
 train_step = tf.train.AdamOptimizer(0.001).minimize(cross_entropy)
 
@@ -109,16 +109,20 @@ sess.run(init)
 
 print("start")
 
-for i in range(100):
+iterations=500
 
-	batch_xs = np.zeros((100,2500))
-	batch_ys =np.zeros((100,104))
-	for j in range(100):
+for i in range(iterations):
+	if((i%100)==0):
+		print(i)
+	sample_size=5000
+	batch_xs = np.zeros((sample_size,2500))
+	batch_ys =np.zeros((sample_size,104))
+	for j in range(sample_size):
 		a=random.randrange(0,17204,1)
 		# if(i==0):
 		# 	print(a)
-		batch_xs[i]=images2[a]
-		batch_ys[i]=ys[a]
+		batch_xs[j]=images2[a]
+		batch_ys[j]=ys[a]
 	# print("This is y_real: ", batch_ys)
 	sess.run(train_step, feed_dict={x: batch_xs, y_: batch_ys})
 print("finish")
