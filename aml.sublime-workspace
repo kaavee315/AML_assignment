@@ -163,7 +163,11 @@
 			"file": "ass_1.py",
 			"settings":
 			{
+<<<<<<< HEAD
 				"buffer_size": 2655,
+=======
+				"buffer_size": 2617,
+>>>>>>> 8aca118790cfe88eca36160102ad9ff010555eae
 				"line_ending": "Unix"
 			}
 		},
@@ -363,15 +367,24 @@
 					"semi_transient": false,
 					"settings":
 					{
+<<<<<<< HEAD
 						"buffer_size": 2655,
+=======
+						"buffer_size": 2617,
+>>>>>>> 8aca118790cfe88eca36160102ad9ff010555eae
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
+<<<<<<< HEAD
 								0,
 								0
+=======
+								376,
+								376
+>>>>>>> 8aca118790cfe88eca36160102ad9ff010555eae
 							]
 						],
 						"settings":
