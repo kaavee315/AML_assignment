@@ -163,7 +163,7 @@
 			"file": "ass_1.py",
 			"settings":
 			{
-				"buffer_size": 2617,
+				"buffer_size": 2655,
 				"line_ending": "Unix"
 			}
 		},
@@ -363,15 +363,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2617,
+						"buffer_size": 2655,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								376,
-								376
+								0,
+								0
 							]
 						],
 						"settings":
