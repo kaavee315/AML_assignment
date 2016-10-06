@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 """
 Created on Thu Sep 22 20:20:08 2016
-
 @author: kaavee
 """
 
 import tensorflow as tf
-from skimage import data, io, data_dir, transform, viewer
+from skimage import data, io, data_dir, transform, viewer, morphology
 import numpy as np
 import random
 
@@ -31,25 +30,31 @@ image_collect = io.imread_collection("train/*.png")
 # view_coll = viewer.CollectionViewer(image_collect);
 # view_coll.show()
 images = io.concatenate_images(image_collect)
-# v=viewer.ImageViewer(images[1])
-# v.show()
-images1 = np.zeros((images.shape[0],50,50))
+v=viewer.ImageViewer(images[1])
+v.show()
+final_size_n=80
+images1 = np.zeros((images.shape[0],final_size_n,final_size_n))
 for i in range(images.shape[0]):
-	images1[i] = transform.resize(images[i],[50,50])
-# v2=viewer.ImageViewer(images1[images1.shape[0]-1])
-# v2.show()
+	tmp_image=np.invert(images[i])
+	tmp_image=morphology.dilation(tmp_image)
+	tmp_image=np.invert(tmp_image)
+	if(i==1):
+		v=viewer.ImageViewer(tmp_image)
+		v.show()
+	images1[i] = transform.resize(tmp_image,[final_size_n,final_size_n])
+v2=viewer.ImageViewer(images1[1])
+v2.show()
 images2=flatten2(images1)
 
 training_size = images2.shape[0]
-
 
 validation_image_collect = io.imread_collection("valid/*.png")
 validation_images = io.concatenate_images(validation_image_collect)
 # v=viewer.ImageViewer(validation_images[validation_images.shape[0]-1])
 # v.show()
-validation_images1 = np.zeros((validation_images.shape[0],50,50))
+validation_images1 = np.zeros((validation_images.shape[0],final_size_n,final_size_n))
 for i in range(validation_images.shape[0]):
-	validation_images1[i] = transform.resize(validation_images[i],[50,50])
+	validation_images1[i] = transform.resize(validation_images[i],[final_size_n,final_size_n])
 # v2=viewer.ImageViewer(validation_images1[validation_images1.shape[0]-1])
 # v2.show()
 validation_images2=flatten2(validation_images1)
@@ -62,34 +67,45 @@ valid_ys=onehot(valid_yinit,104)
 
 print("1")
 
-x = tf.placeholder(tf.float32, [None, 2500])
+x = tf.placeholder(tf.float32, [None, final_size_n*final_size_n])
 
 
-W0 = tf.Variable(tf.random_normal([2500, 104],mean=0.00, stddev=0.001))
+hl_1=16
+hl_2=100
+out_l=104
+
+W0 = tf.Variable(tf.random_normal([final_size_n*final_size_n, hl_1],mean=0.00, stddev=0.001))
 # W0 = tf.Print(W0, [W0], message="This is W0: ", summarize = 10)
-b0 = tf.Variable(tf.random_normal([104],mean=0.00, stddev=0.001))
+b0 = tf.Variable(tf.random_normal([hl_1],mean=0.00, stddev=0.001))
 # b0 = tf.Print(b0, [b0], message="This is b0: ", summarize = 10)
 z0 = tf.matmul(x, W0) + b0
 # z0 = tf.Print(z0, [z0], message="This is z0: ", summarize = 10)
-y=tf.nn.relu(z0)
-# h0 = tf.Print(h0, [h0], message="This is h0: ", summarize = 104)
+h0=tf.nn.relu6(z0)
+# y = tf.Print(y, [y], message="This is y: ", summarize = 104)
 
 
-# W1 = tf.Variabl/message="This is h1: ", summarize = 10)
+W1 = tf.Variable(tf.random_normal([hl_1, out_l],mean=0.00, stddev=0.001))
+# W1 = tf.Print(W1, [W1], message="This is W1: ", summarize = 10)
+b1 = tf.Variable(tf.random_normal([out_l],mean=0.00, stddev=0.001))
+# b1 = tf.Print(b1, [b1], message="This is b1: ", summarize = 10)
+z1 = tf.matmul(h0, W1) + b1
+# z1 = tf.Print(z1, [z1], message="This is z1: ", summarize = 10)
+y=tf.nn.softmax(z1)
+# h1 = tf.Print(h1, [h1], message="This is h1: ", summarize = 10)
 
-# W2 = tf.Variable(tf.random_normal([500, 104],mean=0.00, stddev=0.001))
-# # # W2 = tf.Print(W2, [W2], message="This is W2: ", summarize = 10)
+# W2 = tf.Variable(tf.random_normal([hl_2, 104],mean=0.00, stddev=0.001))
+# # W2 = tf.Print(W2, [W2], message="This is W2: ", summarize = 10)
 # b2 = tf.Variable(tf.random_normal([104],mean=0.00, stddev=0.001))
-# # # b2 = tf.Print(b2, [b2], message="This is b2: ", summarize = 10)
+# # b2 = tf.Print(b2, [b2], message="This is b2: ", summarize = 10)
 # z2 = tf.matmul(h1, W2) + b2
-# # # z2 = tf.Print(z2, [z2], message="This is z2: ", summarize = 10)
+# # z2 = tf.Print(z2, [z2], message="This is z2: ", summarize = 10)
 # y=tf.nn.softmax(z2)
-# # # y_reduce = tf.reduce_sum(y,1)
-# # # y_reduce = tf.Print(y_reduce, [y_reduce], message="This is y_reduce: ", summarize = 100000)
+# # y_reduce = tf.reduce_sum(y,1)
+# # y_reduce = tf.Print(y_reduce, [y_reduce], message="This is y_reduce: ", summarize = 100000)
 
 
 
-y_ = tf.placeholder(tf.float32, [None, 104])
+y_ = tf.placeholder(tf.float32, [None, out_l])
 # y_ = tf.Print(y_, [y_], message="This is y_real: ", summarize = 10)
 
 cross_entropy = -tf.reduce_sum(y_*tf.log(tf.clip_by_value(y,1e-10,1.0)))
@@ -107,12 +123,12 @@ print("start")
 iterations=500
 
 for i in range(iterations):
-	if((i%10)==0):
+	if((i%100)==0):
 		print(i)
-	sample_size=5000
+	sample_size=10000
 	sample = random.sample(range(training_size),sample_size)
-	batch_xs = np.zeros((sample_size,2500))
-	batch_ys =np.zeros((sample_size,104))
+	batch_xs = np.zeros((sample_size,final_size_n*final_size_n))
+	batch_ys =np.zeros((sample_size,out_l))
 	for j in range(sample_size):
 		# if(i==0):
 		# 	print(a)
@@ -129,4 +145,3 @@ accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 print(sess.run(accuracy, feed_dict={x: validation_images2, y_: valid_ys}))
 
 sess.close()
-
