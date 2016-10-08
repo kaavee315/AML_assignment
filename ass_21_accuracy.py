@@ -5,7 +5,7 @@ Created on Thu Sep 22 20:20:08 2016
 """
 
 import tensorflow as tf
-from skimage import data, io, data_dir, transform, viewer
+from skimage import data, io, data_dir, transform, viewer, morphology
 import numpy as np
 import random
 
@@ -32,9 +32,15 @@ image_collect = io.imread_collection("train/*.png")
 images = io.concatenate_images(image_collect)
 # v=viewer.ImageViewer(images[1])
 # v.show()
-images1 = np.zeros((images.shape[0],50,50))
+
+final_dim=80
+
+images1 = np.zeros((images.shape[0],final_dim,final_dim))
 for i in range(images.shape[0]):
-	images1[i] = transform.resize(images[i],[50,50])
+	tmp_image=np.invert(images[i])
+	tmp_image=morphology.dilation(tmp_image)
+	tmp_image=np.invert(tmp_image)
+	images1[i] = transform.resize(tmp_image,[final_dim,final_dim])
 # v2=viewer.ImageViewer(images1[images1.shape[0]-1])
 # v2.show()
 images2=flatten2(images1)
@@ -44,9 +50,12 @@ validation_image_collect = io.imread_collection("valid/*.png")
 validation_images = io.concatenate_images(validation_image_collect)
 # v=viewer.ImageViewer(validation_images[validation_images.shape[0]-1])
 # v.show()
-validation_images1 = np.zeros((validation_images.shape[0],50,50))
+validation_images1 = np.zeros((validation_images.shape[0],final_dim,final_dim))
 for i in range(validation_images.shape[0]):
-	validation_images1[i] = transform.resize(validation_images[i],[50,50])
+	tmp_image=np.invert(validation_images[i])
+	tmp_image=morphology.dilation(tmp_image)
+	tmp_image=np.invert(tmp_image)
+	validation_images1[i] = transform.resize(tmp_image,[final_dim,final_dim])
 # v2=viewer.ImageViewer(validation_images1[validation_images1.shape[0]-1])
 # v2.show()
 validation_images2=flatten2(validation_images1)
@@ -59,10 +68,10 @@ valid_ys=onehot(valid_yinit,104)
 
 print("1")
 
-x = tf.placeholder(tf.float32, [None, 2500])
+x = tf.placeholder(tf.float32, [None, final_dim*final_dim])
 
 
-W0 = tf.Variable(tf.random_normal([2500, 104],mean=0.00, stddev=0.001))
+W0 = tf.Variable(tf.random_normal([final_dim*final_dim, 104],mean=0.00, stddev=0.001))
 # W0 = tf.Print(W0, [W0], message="This is W0: ", summarize = 10)
 b0 = tf.Variable(tf.random_normal([104],mean=0.00, stddev=0.001))
 # b0 = tf.Print(b0, [b0], message="This is b0: ", summarize = 10)
@@ -114,7 +123,7 @@ for i in range(iterations):
 	if((i%100)==0):
 		print(i)
 	sample_size=10000
-	batch_xs = np.zeros((sample_size,2500))
+	batch_xs = np.zeros((sample_size,final_dim*final_dim))
 	batch_ys =np.zeros((sample_size,104))
 	for j in range(sample_size):
 		a=random.randrange(0,17204,1)

@@ -71,7 +71,7 @@ b0 = tf.Variable(tf.random_normal([104],mean=0.00, stddev=0.001))
 # b0 = tf.Print(b0, [b0], message="This is b0: ", summarize = 10)
 z0 = tf.matmul(x, W0) + b0
 # z0 = tf.Print(z0, [z0], message="This is z0: ", summarize = 10)
-y=tf.nn.relu(z0)
+y=tf.nn.softmax(z0)
 # h0 = tf.Print(h0, [h0], message="This is h0: ", summarize = 104)
 
 
@@ -109,7 +109,7 @@ iterations=500
 for i in range(iterations):
 	if((i%10)==0):
 		print(i)
-	sample_size=5000
+	sample_size=17000
 	sample = random.sample(range(training_size),sample_size)
 	batch_xs = np.zeros((sample_size,2500))
 	batch_ys =np.zeros((sample_size,104))
