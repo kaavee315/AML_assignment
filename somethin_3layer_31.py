@@ -120,7 +120,7 @@ sess.run(init)
 
 print("start")
 
-iterations=50000
+iterations=5000
 
 correct_prediction = tf.equal(tf.argmax(y,1), tf.argmax(y_,1))
 
@@ -129,7 +129,7 @@ accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 for i in range(iterations):
 	if((i%100)==0):
 		print(i)
-	sample_size=100	
+	sample_size=1000
 	batch_xs = np.zeros((sample_size,final_dim*final_dim))
 	batch_ys =np.zeros((sample_size,104))
 	for j in range(sample_size):

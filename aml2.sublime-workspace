@@ -4,6 +4,22 @@
 		"selected_items":
 		[
 			[
+				"valid",
+				"validation_images"
+			],
+			[
+				"fi",
+				"final_dim"
+			],
+			[
+				"val",
+				"validation_images2"
+			],
+			[
+				"cro",
+				"cross_entropy"
+			],
+			[
 				"ima",
 				"images"
 			],
@@ -200,6 +216,73 @@
 	"buffers":
 	[
 		{
+			"contents": "# -*- coding: utf-8 -*-\n\"\"\"\nCreated on Thu Sep 22 20:20:08 2016\n@author: kaavee\n\"\"\"\n\nimport tensorflow as tf\nfrom skimage import data, io, data_dir, transform, viewer, morphology\nimport numpy as np\nimport random\n\nnp.set_printoptions(threshold=np.nan)\n\n\ndef flatten2(images):\n\timages2 = np.zeros((images.shape[0],images.shape[1]*images.shape[2]))\n\tfor i in range(images.shape[0]):\n\t\timages2[i]=images[i].flatten()\n\treturn images2\n\ndef onehot(labels, values):\n\tlabels2 = np.zeros((labels.shape[0], values))\n\tfor i in range(labels.shape[0]):\n\t\tlabels2[i][labels[i]]=1\n\treturn labels2\n\nprint(\"0\")\n\nimage_collect = io.imread_collection(\"train/*.png\")\n# view_coll = viewer.CollectionViewer(image_collect);\n# view_coll.show()\nimages = io.concatenate_images(image_collect)\n# v=viewer.ImageViewer(images[1])\n# v.show()\n\nfinal_dim=64\n\nimages1 = np.zeros((images.shape[0],final_dim,final_dim))\nfor i in range(images.shape[0]):\n\ttmp_image=np.invert(images[i])\n\ttmp_image=morphology.dilation(tmp_image)\n\ttmp_image=np.invert(tmp_image)\n\timages1[i] = transform.resize(tmp_image,[final_dim,final_dim])\n# v2=viewer.ImageViewer(images1[images1.shape[0]-1])\n# v2.show()\nimages2=flatten2(images1)\n\n\nvalidation_image_collect = io.imread_collection(\"valid/*.png\")\nvalidation_images = io.concatenate_images(validation_image_collect)\n# v=viewer.ImageViewer(validation_images[validation_images.shape[0]-1])\n# v.show()\nvalidation_images1 = np.zeros((validation_images.shape[0],final_dim,final_dim))\nfor i in range(validation_images.shape[0]):\n\ttmp_image=np.invert(validation_images[i])\n\ttmp_image=morphology.dilation(tmp_image)\n\ttmp_image=np.invert(tmp_image)\n\tvalidation_images1[i] = transform.resize(tmp_image,[final_dim,final_dim])\n# v2=viewer.ImageViewer(validation_images1[validation_images1.shape[0]-1])\n# v2.show()\nvalidation_images2=flatten2(validation_images1)\n\nyinit=np.loadtxt(\"train/labels.txt\")\nys=onehot(yinit,104)\n\nvalid_yinit=np.loadtxt(\"valid/labels.txt\")\nvalid_ys=onehot(valid_yinit,104) \n\nprint(\"1\")\n\nx = tf.placeholder(tf.float32, [None, final_dim*final_dim])\n\nhl_1=1000\nhl_2=500\nout_l=104\n\nW0 = tf.Variable(tf.random_normal([final_dim*final_dim, hl_1],mean=0.00, stddev=0.0001))\n# W0 = tf.Print(W0, [W0], message=\"This is W0: \", summarize = 10)\nb0 = tf.Variable(tf.random_normal([hl_1],mean=0.00, stddev=0.0001))\n# b0 = tf.Print(b0, [b0], message=\"This is b0: \", summarize = 10)\nz0 = tf.matmul(x, W0) + b0\n# z0 = tf.Print(z0, [z0], message=\"This is z0: \", summarize = 10)\nh0=tf.nn.sigmoid(z0)\n# h0 = tf.Print(h0, [h0], message=\"This is h0: \", summarize = 104)\n\n\nW1 = tf.Variable(tf.random_normal([hl_1, hl_2],mean=0.00, stddev=0.0001))\n# W1 = tf.Print(W1, [W1], message=\"This is W1: \", summarize = 10)\nb1 = tf.Variable(tf.random_normal([hl_2],mean=0.00, stddev=0.0001))\n# b1 = tf.Print(b1, [b1], message=\"This is b1: \", summarize = 10)\nz1 = tf.matmul(h0, W1) + b1\n# z1 = tf.Print(z1, [z1], message=\"This is z1: \", summarize = 10)\nh1=tf.nn.sigmoid(z1)\n# y = tf.Print(y, [y], message=\"This is y: \", summarize = 10)\n\nW2 = tf.Variable(tf.random_normal([hl_2, out_l],mean=0.00, stddev=0.0001))\n# W2 = tf.Print(W2, [W2], message=\"This is W2: \", summarize = 10)\nb2 = tf.Variable(tf.random_normal([out_l],mean=0.00, stddev=0.0001))\n# b2 = tf.Print(b2, [b2], message=\"This is b2: \", summarize = 10)\nz2 = tf.matmul(h1, W2) + b2\n# z2 = tf.Print(z2, [z2], message=\"This is z2: \", summarize = 10)\ny=tf.nn.softmax(z2)\n# y_reduce = tf.reduce_sum(y,1)\n# y_reduce = tf.Print(y_reduce, [y_reduce], message=\"This is y_reduce: \", summarize = 100000)\n\n\n\ny_ = tf.placeholder(tf.float32, [None, 104])\n# y_ = tf.Print(y_, [y_], message=\"This is y_real: \", summarize = 10)\n\ncross_entropy = -tf.reduce_sum(y_*tf.log(tf.clip_by_value(y,1e-10,1.0)))\n# cross_entropy = tf.Print(cross_entropy,[cross_entropy],\"This is cross entropy: \")\n\ntrain_step = tf.train.AdamOptimizer(0.0001).minimize(cross_entropy)\n\ninit = tf.initialize_all_variables()\n\nsess = tf.Session()\nsess.run(init)\n\nprint(\"start\")\n\niterations=50000\n\ncorrect_prediction = tf.equal(tf.argmax(y,1), tf.argmax(y_,1))\n\naccuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))\n\nfor i in range(iterations):\n\tif((i%100)==0):\n\t\tprint(i)\n\tsample_size=100\t\n\tbatch_xs = np.zeros((sample_size,final_dim*final_dim))\n\tbatch_ys =np.zeros((sample_size,104))\n\tfor j in range(sample_size):\n\t\ta=random.randrange(0,17204,1)\n\t\t# if(i==0):\n\t\t# \tprint(a)\n\t\tbatch_xs[j]=images2[a]\n\t\tbatch_ys[j]=ys[a]\n\t# print(\"This is y_real: \", batch_ys)\n\tsess.run(train_step, feed_dict={x: batch_xs, y_: batch_ys})\n\n\n\tif((i%1000)==0):\n\t\tprint(sess.run(accuracy, feed_dict={x: validation_images2, y_: valid_ys}))\nprint(\"finish\")\n\nprint(sess.run(accuracy, feed_dict={x: validation_images2, y_: valid_ys}))\n\nsess.close()",
+			"file": "somethin_3layer_31.py",
+			"file_size": 4716,
+			"file_write_time": 131209106681582066,
+			"settings":
+			{
+				"buffer_size": 4717,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "script.sh",
+			"settings":
+			{
+				"buffer_size": 164,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/kaavee/Dropbox/notesandbooks/CS726/Archive/mnist_softmax.py",
+			"settings":
+			{
+				"buffer_size": 1799,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "somethin_2layer.py",
+			"settings":
+			{
+				"buffer_size": 4626,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/kaavee/Dropbox/notesandbooks/CS726/Archive/preprocess_labels.py",
+			"settings":
+			{
+				"buffer_size": 926,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/kaavee/Dropbox/notesandbooks/CS726/Archive/preprocess_data.py",
+			"settings":
+			{
+				"buffer_size": 1435,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "preprocess_images.py",
+			"settings":
+			{
+				"buffer_size": 2327,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/kaavee/Dropbox/notesandbooks/CS726/Archive/assignment_1.py",
+			"settings":
+			{
+				"buffer_size": 3499,
+				"line_ending": "Unix"
+			}
+		},
+		{
 			"file": "train/labels.txt",
 			"settings":
 			{
@@ -211,15 +294,7 @@
 			"file": "out",
 			"settings":
 			{
-				"buffer_size": 386,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "working_on.py",
-			"settings":
-			{
-				"buffer_size": 4615,
+				"buffer_size": 643,
 				"line_ending": "Unix"
 			}
 		}
@@ -256,15 +331,27 @@
 	},
 	"file_history":
 	[
+		"/home/kaavee/Documents/codes/AML_assignment/script.sh",
+		"/home/kaavee/Dropbox/notesandbooks/CS726/Archive/mnist_softmax.py",
+		"/home/kaavee/Documents/codes/AML_assignment/somethin_2layer.py",
+		"/home/kaavee/Dropbox/notesandbooks/CS726/Archive/preprocess_labels.py",
+		"/home/kaavee/Dropbox/notesandbooks/CS726/Archive/preprocess_data.py",
+		"/home/kaavee/Documents/codes/AML_assignment/preprocess_images.py",
+		"/home/kaavee/Dropbox/notesandbooks/CS726/Archive/assignment_1.py",
+		"/home/kaavee/Documents/codes/AML_assignment/train/labels.txt",
+		"/home/kaavee/Documents/codes/AML_assignment/out",
+		"/home/kaavee/Documents/codes/AML_assignment/working_on.py",
+		"/home/kaavee/.bashrc",
+		"/home/kaavee/Dropbox/notesandbooks/CS726/Archive/assignment_2.py",
+		"/home/kaavee/Dropbox/notesandbooks/CS726/Archive/assignment.py",
+		"/home/kaavee/Dropbox/notesandbooks/CS726/Archive/test.py",
 		"/home/kaavee/Documents/codes/AML_assignment/ass_debug22.py",
 		"/home/kaavee/Documents/codes/AML_assignment/err",
-		"/home/kaavee/Documents/codes/AML_assignment/somethin_2layer.py",
 		"/home/kaavee/.config/sublime-text-3/Packages/User/Preferences.sublime-settings",
 		"/home/kaavee/Documents/codes/AML_assignment/practice/mnist.py",
 		"/home/kaavee/Documents/codes/AML_assignment/ass_debug.py",
 		"/home/kaavee/Documents/codes/AML_assignment/ass_debug2.py",
 		"/home/kaavee/Documents/codes/AML_assignment/ass_21_accuracy.py",
-		"/home/kaavee/Documents/codes/AML_assignment/out",
 		"/home/kaavee/Documents/codes/AML_assignment/ass_2.py",
 		"/home/kaavee/Documents/codes/AML_assignment/ass_1.py",
 		"/home/kaavee/Documents/codes/AML_assignment/ass_3.py",
@@ -337,6 +424,9 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"crossent",
+			"x_train",
+			"multilayer_perceptron",
 			"cross",
 			"value=0.001",
 			"tf.fill",
@@ -448,11 +538,246 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 9,
 			"sheets":
 			[
 				{
 					"buffer": 0,
+					"file": "somethin_3layer_31.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4717,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3977,
+								3977
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 2391.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 9,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "script.sh",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 164,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/ShellScript/Shell-Unix-Generic.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/home/kaavee/Dropbox/notesandbooks/CS726/Archive/mnist_softmax.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1799,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								487,
+								487
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "somethin_2layer.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4626,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								538
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "/home/kaavee/Dropbox/notesandbooks/CS726/Archive/preprocess_labels.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 926,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "/home/kaavee/Dropbox/notesandbooks/CS726/Archive/preprocess_data.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1435,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "preprocess_images.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2327,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "/home/kaavee/Dropbox/notesandbooks/CS726/Archive/assignment_1.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3499,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
 					"file": "train/labels.txt",
 					"semi_transient": false,
 					"settings":
@@ -464,41 +789,12 @@
 						"selection":
 						[
 							[
-								2,
-								2
+								0,
+								0
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "out",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 386,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								385,
-								385
-							]
-						],
-						"settings":
-						{
-							"auto_name": "",
 							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
@@ -509,29 +805,29 @@
 					"type": "text"
 				},
 				{
-					"buffer": 2,
-					"file": "working_on.py",
+					"buffer": 9,
+					"file": "out",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4615,
+						"buffer_size": 643,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4046,
-								4046
+								0,
+								0
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Python/Python.sublime-syntax",
+							"syntax": "Packages/Text/Plain text.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 2897.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -542,7 +838,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 40.0
+		"height": 37.0
 	},
 	"input":
 	{
@@ -579,7 +875,7 @@
 	"project": "aml2.sublime-project",
 	"replace":
 	{
-		"height": 114.0
+		"height": 70.0
 	},
 	"save_all_on_build": true,
 	"select_file":
