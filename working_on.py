@@ -106,7 +106,7 @@ b2 = tf.Variable(tf.random_normal([out_l],mean=0.00, stddev=0.0001))
 # b2 = tf.Print(b2, [b2], message="This is b2: ", summarize = 10)
 z2 = tf.matmul(h1, W2) + b2
 # z2 = tf.Print(z2, [z2], message="This is z2: ", summarize = 10)
-y=z2
+y=tf.nn.softmax(z2)
 # y_reduce = tf.reduce_sum(y,1)
 # y_reduce = tf.Print(y_reduce, [y_reduce], message="This is y_reduce: ", summarize = 100000)
 
@@ -115,8 +115,8 @@ y=z2
 y_ = tf.placeholder(tf.float32, [None, out_l])
 # y_ = tf.Print(y_, [y_], message="This is y_real: ", summarize = 10)
 
-cross_entropy = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(y, y_))
-# cross_entropy = -tf.reduce_sum(y_*tf.log(tf.clip_by_value(y,1e-10,1.0)))
+# cross_entropy = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(y, y_))
+cross_entropy = -tf.reduce_sum(y_*tf.log(tf.clip_by_value(y,1e-10,1.0)))
 # cross_entropy = tf.Print(cross_entropy,[cross_entropy],"This is cross entropy: ")
 
 train_step = tf.train.AdamOptimizer(learning_rate).minimize(cross_entropy)
@@ -141,8 +141,9 @@ for i in range(iterations1):
 	sample_size=1200	
 	batch_xs = np.zeros((sample_size,final_dim*final_dim))
 	batch_ys =np.zeros((sample_size,out_l))
+	indices = random.sample(range(17205),sample_size)
 	for j in range(sample_size):
-		a=random.randrange(0,17204,1)
+		a=indices[j]
 		# if(i==0):
 		# 	print(a)
 		batch_xs[j]=images2[a]
